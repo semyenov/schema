@@ -5,21 +5,8 @@ import esbuildPlugin from 'rollup-plugin-esbuild'
 
 export default defineConfig([
   ...build({
-    input: 'index.ts',
+    src: './out',
+    input: 'index.mjs',
+    tsconfig: './tsconfig.out.json',
   }),
-  {
-    input: './out/index.mjs',
-    plugins: [
-      esbuildPlugin({
-        include: ['./out/**/*.{js,mjs}'],
-        target: 'esnext',
-        minify: true,
-      }),
-    ],
-    output: {
-      dir: 'dist/out',
-      format: 'esm',
-      sourcemap: true,
-    },
-  },
 ])

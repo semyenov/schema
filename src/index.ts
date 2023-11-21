@@ -31,8 +31,8 @@ async function main() {
     lintSchema(schema, options)
   }
 
-  const defs = await readSchemas(defsDir)
   const ic = new MagicString(`\nmodule.exports = {\n`, { filename: 'index.mjs' })
+  const defs = await readSchemas(defsDir)
 
   for (const def of defs.values()) {
     const name = getFileName(def.$id!)

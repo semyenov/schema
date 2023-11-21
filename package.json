@@ -40,7 +40,9 @@
   "scripts": {
     "lint": "eslint -f mo ./src",
     "dev": "bun run --watch ./src/index.ts",
-    "build": "rollup --silent --configPlugin esbuild --config rollup.config.ts",
+    "generate": "bun run ./src/index.ts",
+    "build": "bun run generate && bun run bundle",
+    "bundle": "rollup --silent --configPlugin esbuild --config rollup.config.ts",
     "schema": "typescript-json-schema --out ./dist/config.schema.json --skipLibCheck ./src/lib/config.ts Config"
   },
   "peerDependencies": {
