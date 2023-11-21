@@ -7,7 +7,7 @@ import consola from 'consola'
 import MagicString from 'magic-string'
 
 import { loadConfig } from './lib/config'
-import { getFileName, lintSchema, readSchemas, rollupBuild, vendorSchemas } from './lib/utils'
+import { getName, lintSchema, readSchemas, rollupBuild, vendorSchemas } from './lib/utils'
 
 const logger = consola.withTag('schema')
 
@@ -40,7 +40,7 @@ async function main() {
   options.schemas = schemas
 
   for (const [id, def] of defs.entries()) {
-    const name = getFileName(id)
+    const name = getName(id)
 
     logger.info(`Schema ${name}`)
     lintSchema(def, options)

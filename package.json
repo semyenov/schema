@@ -41,6 +41,7 @@
     "dev": "bun run --watch ./src/index.ts",
     "build": "bun run ./src/index.ts",
     "lint": "eslint -f mo ./src",
+    "clean": "bun x rm -rf ./out ./dist",
     "schema": "typescript-json-schema --out ./schema.json --skipLibCheck ./src/lib/config.ts Config"
   },
   "peerDependencies": {

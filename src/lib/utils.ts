@@ -32,20 +32,6 @@ export async function vendorSchemas(
   await Promise.all(writePromises)
 }
 
-export async function rollupBuild(options: RollupBuildOptions) {
-  return Promise.all(
-    build(options)
-      .slice(0, -1)
-      .map(async (conf) => {
-        const bundle = await rollup(conf)
-
-        return Array.isArray(conf.output)
-          ? Promise.all(conf.output.map(bundle.write))
-          : conf.output && bundle.write(conf.output)
-      }),
-  )
-}
-
 export async function readSchemas<
   T extends Schema,
   O = T extends object ? T : never,
@@ -74,18 +60,31 @@ export function lintSchema(schema: Schema, options: ValidatorOptions) {
       error.message
         .slice(0, -error.keywordLocation.length)
         .concat(schema.$id || '')
-        .concat(error.keywordLocation)
-        .concat(`\n`),
+        .concat(error.keywordLocation),
       refs
         .map((i) => {
-          return `${stringifyWithDepth(i[0], 3)}`
+          return `\n${stringifyWithDepth(i[0], 3, 0)}`
         })
-        .join(`\n`),
+        .join(''),
     )
   }
 }
 
-export function getFileName(id: string) {
+export async function rollupBuild(options: RollupBuildOptions) {
+  return Promise.all(
+    build(options)
+      .slice(0, -1)
+      .map(async (conf) => {
+        const bundle = await rollup(conf)
+
+        return Array.isArray(conf.output)
+          ? Promise.all(conf.output.map(bundle.write))
+          : conf.output && bundle.write(conf.output)
+      }),
+  )
+}
+
+export function getName(id: string) {
   const url = new URL(id).pathname.split('/')
     .pop()
     ?.toLowerCase()
@@ -93,7 +92,7 @@ export function getFileName(id: string) {
   return url?.endsWith('.json') ? url.slice(0, -5) : url
 }
 
-export function stringifyWithDepth(val: any, depth: number) {
+export function stringifyWithDepth(val: any, depth: number, indent = 2) {
   depth = Number.isNaN(+depth) ? 1 : depth
   function next(
     key: string,
@@ -113,9 +112,9 @@ export function stringifyWithDepth(val: any, depth: number) {
             !o && (o = a ? [] : {})
             o[k] = next(k, v, a ? depth : depth - 1)
           }
-        }),
+        }, indent),
         o || (a ? [] : {}))
   }
 
-  return JSON.stringify(next('', val, depth), null, 2)
+  return JSON.stringify(next('', val, depth), null, indent)
 }
