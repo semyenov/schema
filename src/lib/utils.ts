@@ -93,8 +93,9 @@ export function getName(id: string) {
   return url?.endsWith('.json') ? url.slice(0, -5) : url
 }
 
-export function stringifyWithDepth(val: any, depth: number, indent = 2) {
+export function stringifyWithDepth(obj: any, depth: number, indent = 2) {
   depth = Number.isNaN(+depth) ? 1 : depth
+
   function next(
     key: string,
     value: any,
@@ -103,18 +104,21 @@ export function stringifyWithDepth(val: any, depth: number, indent = 2) {
     o?: any,
   ) {
     if (typeof value === 'object') {
-      JSON.stringify(value, (k, v) => {
-        if (Array.isArray(value) || d > 0) {
-          if (!k) {
-            return (a = Array.isArray(v)) || (value = v)
-          }
-          if (!o) {
-            o = a ? [] : {}
-          }
+      JSON.stringify(
+        value,
+        (k: string, v: any) => {
+          if (Array.isArray(value) || d > 0) {
+            if (!k) {
+              return (a = Array.isArray(v)) || (value = v)
+            }
+            if (!o) {
+              o = a ? [] : {}
+            }
 
-          o[k] = next(k, v, a ? d : d - 1)
-        }
-      }, indent)
+            o[k] = next(k, v, a ? d : d - 1)
+          }
+        },
+      )
 
       return o || (a ? [] : {})
     }
@@ -122,5 +126,9 @@ export function stringifyWithDepth(val: any, depth: number, indent = 2) {
     return value
   }
 
-  return JSON.stringify(next('', val, depth), null, indent)
+  return JSON.stringify(
+    next('', obj, depth),
+    null,
+    indent,
+  )
 }
