@@ -1,13 +1,13 @@
-import fs from 'node:fs/promises'
+import fs from 'node:fs'
 
 import {
-  parser,
   validator,
 } from '@exodus/schemasafe'
 import consola from 'consola'
+import MagicString from 'magic-string'
 
 import { loadConfig } from './lib/config'
-import { getFileName, lintSchema, readSchemas, vendorSchemas } from './lib/utils'
+import { getFileName, lintSchema, readSchemas } from './lib/utils'
 
 const logger = consola.withTag('schema')
 
@@ -17,10 +17,10 @@ async function main() {
     throw new Error('Config file was not specified')
   }
 
-  const { options, vendorDir, defsDir, distDir } = config
+  const { options, vendorDir, defsDir, outDir } = config
 
-  await fs.mkdir(distDir, { recursive: true })
-  await fs.mkdir(vendorDir, { recursive: true })
+  fs.mkdirSync(outDir, { recursive: true })
+  fs.mkdirSync(vendorDir, { recursive: true })
 
   // await vendorSchemas(vendor, vendorDir)
 
@@ -32,27 +32,64 @@ async function main() {
   }
 
   const defs = await readSchemas(defsDir)
+  const ic = new MagicString(`\nmodule.exports = {\n`, { filename: 'index.mjs' })
 
   for (const def of defs.values()) {
+    const name = getFileName(def.$id!)
+
+    logger.info(`Schema ${name}`)
     lintSchema(def, options)
 
-    const fileName = getFileName(def.$id!)
-
-    await fs.writeFile(
-      `${distDir}/${fileName}.validate.js`,
+    const vc = new MagicString(
       validator(def, options)
         .toModule(),
-    )
-    await fs.writeFile(
-      `${distDir}/${fileName}.parse.js`,
-      parser(def, options)
-        .toModule(),
+      { filename: `${name}.json` },
     )
 
-    logger.info(`\nGenerating ${def.$id}`)
-    logger.success(`Generating ${fileName}.validate.js`)
-    logger.success(`Generating ${fileName}.parse.js`)
+    vc
+      .remove(
+        vc.length() - vc.lastLine().length,
+        vc.length(),
+      )
+      .remove(0, 14)
+      .append(`const parseWrap = (validate) => (src) => {
+  if (typeof src !== "string")
+    return { valid: !1, error: "Input is not a string" };
+  try {
+    const value = JSON.parse(src);
+    if (!validate(value)) {
+      const { keywordLocation, instanceLocation } = validate.errors[0];
+      return { valid: !1, error: \`JSON validation failed for \${keywordLocation.slice(keywordLocation.lastIndexOf("/") + 1)} at \${instanceLocation}\`, errors: validate.errors };
+    }
+    return { valid: !0, value };
+  } catch ({ message }) {
+    return { valid: !1, error: message };
   }
+}`)
+      .append(`\nconst schema = ${JSON.stringify(def, null, 2)};`)
+      .append(`\n\nmodule.exports = { 
+  validate: ref0,
+  parse: parseWrap(ref0),
+  schema
+};`)
+
+    await Bun.write(
+      `${outDir}/${name}.mjs`,
+      vc.toString(),
+    )
+
+    ic.prepend(`import * as ${name} from './${name}.mjs';\n`)
+    ic.append(`  ${name},\n`)
+
+    logger.success(`Generating ${name}.mjs`)
+  }
+
+  ic.append('}\n')
+
+  await Bun.write(
+    `${outDir}/index.mjs`,
+    ic.toString(),
+  )
 }
 
 main()

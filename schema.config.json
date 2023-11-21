@@ -1,9 +1,9 @@
 {
-  "$schema": "./config.schema.json",
+  "$schema": "./dist/config.schema.json",
 
   "vendorDir": "./vendor",
   "defsDir": "./defs",
-  "distDir": "./dist",
+  "outDir": "./out",
   "options": {
     "mode": "spec",
     "allErrors": true,

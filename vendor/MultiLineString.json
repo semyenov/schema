@@ -3,16 +3,12 @@
   "$id": "https://regioni.local/schema/MultiLineString",
   "title": "GeoJSON MultiLineString",
   "type": "object",
-  "required": [
-    "type",
-    "coordinates"
-  ],
+  "required": ["type", "coordinates"],
+  "additionalProperties": false,
   "properties": {
     "type": {
       "type": "string",
-      "enum": [
-        "MultiLineString"
-      ]
+      "enum": ["MultiLineString"]
     },
     "coordinates": {
       "type": "array",

@@ -5,7 +5,7 @@ import type { ValidatorOptions } from '@exodus/schemasafe'
 interface Config {
   vendorDir: string
   defsDir: string
-  distDir: string
+  outDir: string
 
   vendor: Record<string, string>
   options: ValidatorOptions
@@ -17,7 +17,7 @@ export function loadConfig() {
 
     defaultConfig: {
       defsDir: './defs',
-      distDir: './dist',
+      outDir: './dist',
       vendorDir: './vendor',
 
       vendor: {},

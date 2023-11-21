@@ -1,10 +1,13 @@
-import fs from 'node:fs/promises'
+import fs from 'node:fs'
 
-import { type Schema, type ValidatorOptions, lint } from '@exodus/schemasafe'
+import { type Schema as SchemaOrBoolean, type ValidatorOptions, lint } from '@exodus/schemasafe'
 import pointer from '@exodus/schemasafe/src/pointer'
 import consola from 'consola'
 
 const logger = consola.withTag('utils')
+
+type ExtractObjectType<T> = T extends object ? T : never
+type Schema = ExtractObjectType<SchemaOrBoolean>
 
 export async function vendorSchemas(
   schemaUrls: Record<string, string>,
@@ -19,9 +22,7 @@ export async function vendorSchemas(
         $id: `https://regioni.local/schema/${id}`,
       })
 
-      return fs.writeFile(filePath, JSON.stringify(fileContent, null, 2), {
-        encoding: 'utf-8',
-      })
+      return Bun.write(filePath, JSON.stringify(fileContent, null, 2))
     })
 
   await Promise.all(writePromises)
@@ -32,13 +33,11 @@ export async function readSchemas<
   O = T extends object ? T : never,
 >(path: string) {
   const schemas = new Map<string, O>()
-  const schemaFiles = await fs.readdir(path)
+  const schemaFiles = fs.readdirSync(path)
 
   for (const fileName of schemaFiles) {
-    const file = await fs.readFile(`${path}/${fileName}`, {
-      encoding: 'utf-8',
-    })
-    const schema = JSON.parse(file)
+    const file = Bun.file(`${path}/${fileName}`)
+    const schema = await file.json()
     schemas.set(schema.$id, schema as O)
   }
 
@@ -54,10 +53,15 @@ export function lintSchema(schema: Schema, options: ValidatorOptions) {
     )
 
     logger.warn(
-      error.message,
-      refs.map((i) => {
-        return `${stringifyWithDepth(i[0], 2)}`
-      })
+      error.message
+        .slice(0, -error.keywordLocation.length)
+        .concat(schema.$id || '')
+        .concat(error.keywordLocation)
+        .concat(`\n`),
+      refs
+        .map((i) => {
+          return `${stringifyWithDepth(i[0], 3)}`
+        })
         .join(`\n`),
     )
   }
