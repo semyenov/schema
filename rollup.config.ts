@@ -10,15 +10,6 @@ export default defineConfig([
   {
     input: './out/index.mjs',
     plugins: [
-      {
-        name: 'test',
-        buildStart() {
-          console.log('buildStart')
-        },
-        buildEnd() {
-          console.log('buildEnd')
-        },
-      },
       esbuildPlugin({
         include: ['./out/**/*.{js,mjs}'],
         target: 'esnext',
