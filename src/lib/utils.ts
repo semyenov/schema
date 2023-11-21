@@ -64,7 +64,7 @@ export function lintSchema(schema: Schema, options: ValidatorOptions) {
         .concat(' -> '),
       refs
         .map(([fr]) => {
-          return `${stringifyWithDepth(fr, 3, 2)}`
+          return `${stringifyWithDepth(fr, 2, 2)}`
         })
         .join(''),
     )
@@ -100,30 +100,30 @@ export function stringifyWithDepth(obj: any, depth: number, indent = 2) {
     key: string,
     value: any,
     d: number,
-    a = false,
-    o?: any,
+    a: boolean = false,
+    o: any = null,
   ) {
-    if (typeof value === 'object') {
-      JSON.stringify(
-        value,
-        (k: string, v: any) => {
-          if (Array.isArray(value) || d > 0) {
-            if (!k) {
-              return (a = Array.isArray(v)) || (value = v)
-            }
-            if (!o) {
-              o = a ? [] : {}
-            }
-
-            o[k] = next(k, v, a ? d : d - 1)
-          }
-        },
-      )
-
-      return o || (a ? [] : {})
+    if (typeof value !== 'object') {
+      return value
     }
 
-    return value
+    a = Array.isArray(value)
+    o = o || (a ? [] : {})
+
+    JSON.stringify(
+      value,
+      (k: string, v: any) => {
+        if (a || d > 0) {
+          if (!k) {
+            return a || (value = v)
+          }
+
+          o[k] = next(k, v, a ? d : d - 1)
+        }
+      },
+    )
+
+    return o
   }
 
   return JSON.stringify(
