@@ -38,12 +38,10 @@
     "dist"
   ],
   "scripts": {
-    "lint": "eslint -f mo ./src",
     "dev": "bun run --watch ./src/index.ts",
-    "generate": "bun run ./src/index.ts",
-    "build": "bun run generate && bun run bundle",
-    "bundle": "rollup --silent --configPlugin esbuild --config rollup.config.ts",
-    "schema": "typescript-json-schema --out ./dist/config.schema.json --skipLibCheck ./src/lib/config.ts Config"
+    "build": "bun run ./src/index.ts",
+    "lint": "eslint -f mo ./src",
+    "schema": "typescript-json-schema --out ./schema.json --skipLibCheck ./src/lib/config.ts Config"
   },
   "peerDependencies": {
     "typescript": "<=5.3.0"
