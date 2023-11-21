@@ -1,0 +1,60 @@
+{
+  "$id": "https://regioni.local/schema/User",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "User Schema",
+  "type": "object",
+  "required": ["email", "age"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["first"],
+      "properties": {
+        "first": {
+          "type": "string",
+          "minLength": 1
+        },
+        "last": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "age": {
+      "type": "number",
+      "minimum": 0
+    },
+    "number": {
+      "type": "number",
+      "const": 42
+    },
+    "geometry": {
+      "type": "object",
+      "required": ["test"],
+      "additionalProperties": false,
+      "properties": {
+        "test": {
+          "type": "object",
+          "required": ["deep"],
+          "additionalProperties": false,
+          "properties": {
+            "deep": {
+              "type": "array",
+              "items": {
+                "$ref": "https://regioni.local/schema/Point#"
+              }
+            }
+          }
+        }
+      }
+    },
+    "geometryCollection": {
+      "$ref": "https://regioni.local/schema/Feature#"
+    }
+  }
+}

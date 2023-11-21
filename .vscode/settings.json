@@ -1,0 +1,150 @@
+{
+  "editor.tabCompletion": "off",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+
+  "editor.wrappingStrategy": "advanced",
+  "editor.wordWrap": "off",
+  "editor.wordWrapColumn": 80,
+  "editor.wrappingIndent": "deepIndent",
+  "editor.accessibilitySupport": "off",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.find.addExtraSpaceOnTop": false,
+  "editor.guides.bracketPairs": "active",
+  "editor.inlineSuggest.enabled": true,
+  "editor.lineNumbers": "interval",
+  "editor.multiCursorModifier": "alt",
+  "editor.renderWhitespace": "boundary",
+  "editor.suggestSelection": "first",
+  "editor.tabSize": 2,
+  "editor.unicodeHighlight.invisibleCharacters": false,
+  "editor.stickyScroll.enabled": true,
+  "editor.hover.sticky": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": false,
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": false
+  },
+
+  "terminal.integrated.defaultProfile.linux": "zsh",
+
+  "npm.packageManager": "yarn",
+  "iridium.npm.packageManager": "yarn",
+
+  "where-am-i.icon": "home",
+  "where-am-i.template": "{icon} {project-name}",
+  "where-am-i.colorful": true,
+  "where-am-i.color": "#fff",
+
+  "volar.takeOverMode.extension": "Vue.volar",
+
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  "eslint.experimental.useFlatConfig": true,
+  "eslint.lintTask.options": "--config ./eslint.config.js",
+  "eslint.codeAction.showDocumentation": {
+    "enable": true
+  },
+  "eslint.quiet": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "html",
+    "markdown",
+    "json",
+    "jsonc",
+    "yaml"
+  ],
+
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  "stylelint.packageManager": "yarn",
+  "stylelint.validate": ["css", "less", "postcss", "vue"],
+
+  "i18n-ally.localesPaths": ["src/i18n/locales"],
+  "i18n-ally.displayLanguage": "ru",
+  "i18n-ally.sourceLanguage": "ru",
+  "i18n-ally.keystyle": "nested",
+
+  "fileNestingUpdater.autoUpdate": true,
+  "fileNestingUpdater.autoUpdateInterval": 720,
+  "fileNestingUpdater.promptOnAutoUpdate": true,
+  "fileNestingUpdater.upstreamRepo": "antfu/vscode-file-nesting-config",
+  "fileNestingUpdater.upstreamBranch": "main",
+
+  "tsEssentialPlugins.cleanupVueComponentCompletions": "filter-all",
+  "tsEssentialPlugins.displayAdditionalInfoInCompletions": true,
+  "tsEssentialPlugins.enableFileDefinitions": true,
+  "tsEssentialPlugins.experiments.changeKindToFunction": true,
+  "tsEssentialPlugins.suggestions.localityBonus": true,
+  "tsEssentialPlugins.fixSuggestionsSorting": true,
+  "tsEssentialPlugins.jsxEmmet.modernize": true,
+  "tsEssentialPlugins.libDomPatching": true,
+  "tsEssentialPlugins.outline.arraysTuplesNumberedItems": true,
+  "tsEssentialPlugins.enableVueSupport": true,
+  "tsEssentialPlugins.experiments.enableInsertNameOfSuggestionFix": true,
+  "tsEssentialPlugins.removeVueComponentsOptionDefinition": true,
+  "volar.vueserver.configFilePath": "/home/node/.vscode-server/extensions/zardoy.ts-essential-plugins-0.0.69/volarConfig.js",
+
+  "tailwind-fold.unfoldIfLineSelected": true,
+
+  "conventionalCommits.scopes": [
+    "backend store",
+    "service-worker",
+    "winbox",
+    "authorization",
+    "mapLibre",
+    "orama",
+    "workers",
+    "linters"
+  ],
+
+  "files.associations": {
+    "*.css": "postcss"
+  },
+
+  "[vue]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+
+  "[yaml]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+
+  "[markdown]": {
+    "editor.formatOnSave": false
+  },
+
+  "[ignore]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+
+  "[postcss]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+  },
+
+  "[dockerfile]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+
+  "[dotenv]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "git-blame.gitWebUrl": "",
+  "workbench.colorCustomizations": {}
+}

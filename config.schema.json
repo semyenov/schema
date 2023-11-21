@@ -1,0 +1,481 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Json": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/definitions/Json"
+          },
+          "type": "array"
+        },
+        {
+          "additionalProperties": {
+            "$ref": "#/definitions/Json"
+          },
+          "type": "object"
+        },
+        {
+          "type": ["string", "number", "boolean"]
+        }
+      ]
+    },
+    "Map<string,Schema>": {
+      "properties": {
+        "__@toStringTag@3533": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "Record<string,string>": {
+      "type": "object"
+    },
+    "RegExp": {
+      "properties": {
+        "dotAll": {
+          "type": "boolean"
+        },
+        "flags": {
+          "type": "string"
+        },
+        "global": {
+          "type": "boolean"
+        },
+        "ignoreCase": {
+          "type": "boolean"
+        },
+        "lastIndex": {
+          "type": "number"
+        },
+        "multiline": {
+          "type": "boolean"
+        },
+        "source": {
+          "type": "string"
+        },
+        "sticky": {
+          "type": "boolean"
+        },
+        "unicode": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "Schema": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/{$schema?:string;$vocabulary?:string;id?:string;$id?:string;$anchor?:string;$ref?:string;definitions?:{[id:string]:Schema;};$defs?:{[id:string]:Schema;};$recursiveRef?:string;$recursiveAnchor?:boolean;type?:string|string[];required?:string[];default?:Json;enum?:Json[];const?:Json;not?:Schema;allOf?:Schema[];anyOf?:Schema[];oneOf?:Schema[];if?:Schema;then?:Schema;else?:Schema;maximum?:number;minimum?:number;exclusiveMaximum?:number|boolean;exclusiveMinimum?:number|boolean;multipleOf?:number;divisibleBy?:number;items?:Schema|Schema[];maxItems?:number;minItems?:number;additionalItems?:Schema;contains?:Schema;minContains?:number;maxContains?:number;uniqueItems?:boolean;maxLength?:number;minLength?:number;format?:string;pattern?:string;contentEncoding?:string;contentMediaType?:string;contentSchema?:Schema;properties?:{[id:string]:Schema;};maxProperties?:number;minProperties?:number;additionalProperties?:Schema;patternProperties?:{[pattern:string]:Schema;};propertyNames?:Schema;dependencies?:{[id:string]:string[]|Schema;};dependentRequired?:{[id:string]:string[];};dependentSchemas?:{[id:string]:Schema;};unevaluatedProperties?:Schema;unevaluatedItems?:Schema;title?:string;description?:string;deprecated?:boolean;readOnly?:boolean;writeOnly?:boolean;examples?:Json[];$comment?:string;discriminator?:{propertyName:string;mapping?:{[value:string]:string;};};}"
+        },
+        {
+          "type": "boolean"
+        }
+      ]
+    },
+    "ValidatorOptions": {
+      "properties": {
+        "$schemaDefault": {
+          "type": "string"
+        },
+        "allErrors": {
+          "type": "boolean"
+        },
+        "allowUnreachable": {
+          "type": "boolean"
+        },
+        "allowUnusedKeywords": {
+          "type": "boolean"
+        },
+        "complexityChecks": {
+          "type": "boolean"
+        },
+        "contentValidation": {
+          "type": "boolean"
+        },
+        "dryRun": {
+          "type": "boolean"
+        },
+        "extraFormats": {
+          "type": "boolean"
+        },
+        "forbidNoopValues": {
+          "type": "boolean"
+        },
+        "formatAssertion": {
+          "type": "boolean"
+        },
+        "formats": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/RegExp"
+              },
+              {
+                "type": "object"
+              }
+            ]
+          },
+          "type": "object"
+        },
+        "includeErrors": {
+          "type": "boolean"
+        },
+        "isJSON": {
+          "type": "boolean"
+        },
+        "jsonCheck": {
+          "type": "boolean"
+        },
+        "lint": {
+          "type": "boolean"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "removeAdditional": {
+          "type": ["string", "boolean"]
+        },
+        "requireSchema": {
+          "type": "boolean"
+        },
+        "requireStringValidation": {
+          "type": "boolean"
+        },
+        "requireValidation": {
+          "type": "boolean"
+        },
+        "schemas": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Map<string,Schema>"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/Schema"
+              },
+              "type": "array"
+            },
+            {
+              "additionalProperties": {
+                "$ref": "#/definitions/Schema"
+              },
+              "type": "object"
+            }
+          ]
+        },
+        "unmodifiedPrototypes": {
+          "type": "boolean"
+        },
+        "useDefaults": {
+          "type": "boolean"
+        },
+        "weakFormats": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "{$schema?:string;$vocabulary?:string;id?:string;$id?:string;$anchor?:string;$ref?:string;definitions?:{[id:string]:Schema;};$defs?:{[id:string]:Schema;};$recursiveRef?:string;$recursiveAnchor?:boolean;type?:string|string[];required?:string[];default?:Json;enum?:Json[];const?:Json;not?:Schema;allOf?:Schema[];anyOf?:Schema[];oneOf?:Schema[];if?:Schema;then?:Schema;else?:Schema;maximum?:number;minimum?:number;exclusiveMaximum?:number|boolean;exclusiveMinimum?:number|boolean;multipleOf?:number;divisibleBy?:number;items?:Schema|Schema[];maxItems?:number;minItems?:number;additionalItems?:Schema;contains?:Schema;minContains?:number;maxContains?:number;uniqueItems?:boolean;maxLength?:number;minLength?:number;format?:string;pattern?:string;contentEncoding?:string;contentMediaType?:string;contentSchema?:Schema;properties?:{[id:string]:Schema;};maxProperties?:number;minProperties?:number;additionalProperties?:Schema;patternProperties?:{[pattern:string]:Schema;};propertyNames?:Schema;dependencies?:{[id:string]:string[]|Schema;};dependentRequired?:{[id:string]:string[];};dependentSchemas?:{[id:string]:Schema;};unevaluatedProperties?:Schema;unevaluatedItems?:Schema;title?:string;description?:string;deprecated?:boolean;readOnly?:boolean;writeOnly?:boolean;examples?:Json[];$comment?:string;discriminator?:{propertyName:string;mapping?:{[value:string]:string;};};}": {
+      "properties": {
+        "$anchor": {
+          "type": "string"
+        },
+        "$comment": {
+          "type": "string"
+        },
+        "$defs": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Schema"
+          },
+          "type": "object"
+        },
+        "$id": {
+          "type": "string"
+        },
+        "$recursiveAnchor": {
+          "type": "boolean"
+        },
+        "$recursiveRef": {
+          "type": "string"
+        },
+        "$ref": {
+          "type": "string"
+        },
+        "$schema": {
+          "type": "string"
+        },
+        "$vocabulary": {
+          "type": "string"
+        },
+        "additionalItems": {
+          "$ref": "#/definitions/Schema"
+        },
+        "additionalProperties": {
+          "$ref": "#/definitions/Schema"
+        },
+        "allOf": {
+          "items": {
+            "$ref": "#/definitions/Schema"
+          },
+          "type": "array"
+        },
+        "anyOf": {
+          "items": {
+            "$ref": "#/definitions/Schema"
+          },
+          "type": "array"
+        },
+        "const": {
+          "$ref": "#/definitions/Json"
+        },
+        "contains": {
+          "$ref": "#/definitions/Schema"
+        },
+        "contentEncoding": {
+          "type": "string"
+        },
+        "contentMediaType": {
+          "type": "string"
+        },
+        "contentSchema": {
+          "$ref": "#/definitions/Schema"
+        },
+        "default": {
+          "$ref": "#/definitions/Json"
+        },
+        "definitions": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Schema"
+          },
+          "type": "object"
+        },
+        "dependencies": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/definitions/{$schema?:string;$vocabulary?:string;id?:string;$id?:string;$anchor?:string;$ref?:string;definitions?:{[id:string]:Schema;};$defs?:{[id:string]:Schema;};$recursiveRef?:string;$recursiveAnchor?:boolean;type?:string|string[];required?:string[];default?:Json;enum?:Json[];const?:Json;not?:Schema;allOf?:Schema[];anyOf?:Schema[];oneOf?:Schema[];if?:Schema;then?:Schema;else?:Schema;maximum?:number;minimum?:number;exclusiveMaximum?:number|boolean;exclusiveMinimum?:number|boolean;multipleOf?:number;divisibleBy?:number;items?:Schema|Schema[];maxItems?:number;minItems?:number;additionalItems?:Schema;contains?:Schema;minContains?:number;maxContains?:number;uniqueItems?:boolean;maxLength?:number;minLength?:number;format?:string;pattern?:string;contentEncoding?:string;contentMediaType?:string;contentSchema?:Schema;properties?:{[id:string]:Schema;};maxProperties?:number;minProperties?:number;additionalProperties?:Schema;patternProperties?:{[pattern:string]:Schema;};propertyNames?:Schema;dependencies?:{[id:string]:string[]|Schema;};dependentRequired?:{[id:string]:string[];};dependentSchemas?:{[id:string]:Schema;};unevaluatedProperties?:Schema;unevaluatedItems?:Schema;title?:string;description?:string;deprecated?:boolean;readOnly?:boolean;writeOnly?:boolean;examples?:Json[];$comment?:string;discriminator?:{propertyName:string;mapping?:{[value:string]:string;};};}"
+              },
+              {
+                "type": "boolean"
+              }
+            ]
+          },
+          "type": "object"
+        },
+        "dependentRequired": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "type": "object"
+        },
+        "dependentSchemas": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Schema"
+          },
+          "type": "object"
+        },
+        "deprecated": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "discriminator": {
+          "properties": {
+            "mapping": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "propertyName": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "divisibleBy": {
+          "type": "number"
+        },
+        "else": {
+          "$ref": "#/definitions/Schema"
+        },
+        "enum": {
+          "items": {
+            "$ref": "#/definitions/Json"
+          },
+          "type": "array"
+        },
+        "examples": {
+          "items": {
+            "$ref": "#/definitions/Json"
+          },
+          "type": "array"
+        },
+        "exclusiveMaximum": {
+          "type": ["number", "boolean"]
+        },
+        "exclusiveMinimum": {
+          "type": ["number", "boolean"]
+        },
+        "format": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "if": {
+          "$ref": "#/definitions/Schema"
+        },
+        "items": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/{$schema?:string;$vocabulary?:string;id?:string;$id?:string;$anchor?:string;$ref?:string;definitions?:{[id:string]:Schema;};$defs?:{[id:string]:Schema;};$recursiveRef?:string;$recursiveAnchor?:boolean;type?:string|string[];required?:string[];default?:Json;enum?:Json[];const?:Json;not?:Schema;allOf?:Schema[];anyOf?:Schema[];oneOf?:Schema[];if?:Schema;then?:Schema;else?:Schema;maximum?:number;minimum?:number;exclusiveMaximum?:number|boolean;exclusiveMinimum?:number|boolean;multipleOf?:number;divisibleBy?:number;items?:Schema|Schema[];maxItems?:number;minItems?:number;additionalItems?:Schema;contains?:Schema;minContains?:number;maxContains?:number;uniqueItems?:boolean;maxLength?:number;minLength?:number;format?:string;pattern?:string;contentEncoding?:string;contentMediaType?:string;contentSchema?:Schema;properties?:{[id:string]:Schema;};maxProperties?:number;minProperties?:number;additionalProperties?:Schema;patternProperties?:{[pattern:string]:Schema;};propertyNames?:Schema;dependencies?:{[id:string]:string[]|Schema;};dependentRequired?:{[id:string]:string[];};dependentSchemas?:{[id:string]:Schema;};unevaluatedProperties?:Schema;unevaluatedItems?:Schema;title?:string;description?:string;deprecated?:boolean;readOnly?:boolean;writeOnly?:boolean;examples?:Json[];$comment?:string;discriminator?:{propertyName:string;mapping?:{[value:string]:string;};};}"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/Schema"
+              },
+              "type": "array"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "maxContains": {
+          "type": "number"
+        },
+        "maxItems": {
+          "type": "number"
+        },
+        "maxLength": {
+          "type": "number"
+        },
+        "maxProperties": {
+          "type": "number"
+        },
+        "maximum": {
+          "type": "number"
+        },
+        "minContains": {
+          "type": "number"
+        },
+        "minItems": {
+          "type": "number"
+        },
+        "minLength": {
+          "type": "number"
+        },
+        "minProperties": {
+          "type": "number"
+        },
+        "minimum": {
+          "type": "number"
+        },
+        "multipleOf": {
+          "type": "number"
+        },
+        "not": {
+          "$ref": "#/definitions/Schema"
+        },
+        "oneOf": {
+          "items": {
+            "$ref": "#/definitions/Schema"
+          },
+          "type": "array"
+        },
+        "pattern": {
+          "type": "string"
+        },
+        "patternProperties": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Schema"
+          },
+          "type": "object"
+        },
+        "properties": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Schema"
+          },
+          "type": "object"
+        },
+        "propertyNames": {
+          "$ref": "#/definitions/Schema"
+        },
+        "readOnly": {
+          "type": "boolean"
+        },
+        "required": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "then": {
+          "$ref": "#/definitions/Schema"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "unevaluatedItems": {
+          "$ref": "#/definitions/Schema"
+        },
+        "unevaluatedProperties": {
+          "$ref": "#/definitions/Schema"
+        },
+        "uniqueItems": {
+          "type": "boolean"
+        },
+        "writeOnly": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "properties": {
+    "defsDir": {
+      "type": "string"
+    },
+    "distDir": {
+      "type": "string"
+    },
+    "options": {
+      "$ref": "#/definitions/ValidatorOptions"
+    },
+    "vendor": {
+      "$ref": "#/definitions/Record<string,string>"
+    },
+    "vendorDir": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

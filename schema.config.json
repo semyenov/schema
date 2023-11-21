@@ -1,0 +1,35 @@
+{
+  "$schema": "./config.schema.json",
+
+  "vendorDir": "./vendor",
+  "defsDir": "./defs",
+  "distDir": "./dist",
+  "options": {
+    "mode": "spec",
+    "allErrors": true,
+    "complexityChecks": true,
+    "extraFormats": true,
+    "formatAssertion": true,
+    "includeErrors": true,
+    "jsonCheck": false,
+    "contentValidation": true,
+    "removeAdditional": false,
+    "requireSchema": false,
+    "requireValidation": true,
+    "requireStringValidation": false,
+    "$schemaDefault": "http://json-schema.org/draft-07/schema#"
+  },
+  "vendor": {
+    "Feature": "http://geojson.org/schema/Feature.json",
+    "FeatureCollection": "http://geojson.org/schema/FeatureCollection.json",
+    "Geometry": "http://geojson.org/schema/Geometry.json",
+    "GeometryCollection": "http://geojson.org/schema/GeometryCollection.json",
+    "LineString": "http://geojson.org/schema/LineString.json",
+    "MultiLineString": "http://geojson.org/schema/MultiLineString.json",
+    "MultiPoint": "http://geojson.org/schema/MultiPoint.json",
+    "MultiPolygon": "http://geojson.org/schema/MultiPolygon.json",
+    "Point": "http://geojson.org/schema/Point.json",
+    "Polygon": "http://geojson.org/schema/Polygon.json",
+    "TileJSON": "https://raw.githubusercontent.com/mapbox/tilejson-spec/master/3.0.0/schema.json"
+  }
+}
