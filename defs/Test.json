@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://regioni.local/schema/Test",
-  "title": "Test schema",
 
+  "title": "Test schema",
   "type": "object",
   "additionalProperties": false,
   "required": ["name", "feature"],

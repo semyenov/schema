@@ -1,6 +1,7 @@
 {
   "$id": "https://regioni.local/schema/User",
   "$schema": "http://json-schema.org/draft-07/schema#",
+
   "title": "User Schema",
   "type": "object",
   "required": ["email", "age"],

@@ -5,19 +5,19 @@
   "defsDir": "./defs",
   "outDir": "./out",
   "options": {
-    "mode": "spec",
+    "mode": "default",
+    "jsonCheck": true,
     "allErrors": true,
-    "complexityChecks": true,
     "extraFormats": true,
-    "formatAssertion": true,
     "includeErrors": true,
-    "jsonCheck": false,
-    "contentValidation": true,
+    "requireSchema": true,
+    "formatAssertion": true,
+    "complexityChecks": true,
     "removeAdditional": false,
-    "requireSchema": false,
+    "contentValidation": true,
     "requireValidation": true,
-    "requireStringValidation": false,
-    "$schemaDefault": "http://json-schema.org/draft-07/schema#"
+    "unmodifiedPrototypes": true,
+    "requireStringValidation": false
   },
   "vendor": {
     "Feature": "http://geojson.org/schema/Feature.json",
