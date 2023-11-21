@@ -32,18 +32,16 @@ export async function vendorSchemas(
   await Promise.all(writePromises)
 }
 
-export async function bundle(options: RollupBuildOptions) {
-  const rollupConfig = build(options)
-    .slice(0, -1)
-
+export async function rollupBuild(options: RollupBuildOptions) {
   return Promise.all(
-    rollupConfig
+    build(options)
+      .slice(0, -1)
       .map(async (conf) => {
         const bundle = await rollup(conf)
 
-        return await (Array.isArray(conf.output)
+        return Array.isArray(conf.output)
           ? Promise.all(conf.output.map(bundle.write))
-          : conf.output && bundle.write(conf.output))
+          : conf.output && bundle.write(conf.output)
       }),
   )
 }

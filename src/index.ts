@@ -3,13 +3,11 @@ import fs from 'node:fs'
 import {
   validator,
 } from '@exodus/schemasafe'
-import build from '@sozdev/rollup-build'
 import consola from 'consola'
 import MagicString from 'magic-string'
-import { rollup } from 'rollup'
 
 import { loadConfig } from './lib/config'
-import { bundle, getFileName, lintSchema, readSchemas } from './lib/utils'
+import { getFileName, lintSchema, readSchemas, rollupBuild, vendorSchemas } from './lib/utils'
 
 const logger = consola.withTag('schema')
 
@@ -19,22 +17,27 @@ async function main() {
     throw new Error('Config file was not specified')
   }
 
-  const { options, vendorDir, defsDir, outDir } = config
+  const { options, vendorDir, defsDir, outDir, vendor } = config
+
+  if (!fs.existsSync(vendorDir)) {
+    fs.mkdirSync(vendorDir, { recursive: true })
+    await vendorSchemas(vendor, vendorDir)
+  }
 
   fs.mkdirSync(outDir, { recursive: true })
-  fs.mkdirSync(vendorDir, { recursive: true })
 
-  // await vendorSchemas(vendor, vendorDir)
+  const defs = await readSchemas(defsDir)
+  if (!defs.size) {
+    throw new Error('Definitions directory is empty')
+  }
 
   const schemas = await readSchemas(vendorDir)
-  options.schemas = schemas
-
   for (const schema of schemas.values()) {
     lintSchema(schema, options)
   }
 
   const ic = new MagicString(`\nmodule.exports = {\n`, { filename: 'index.mjs' })
-  const defs = await readSchemas(defsDir)
+  options.schemas = schemas
 
   for (const [id, def] of defs.entries()) {
     const name = getFileName(id)
@@ -96,8 +99,8 @@ async function main() {
     })
 
   logger.info(`Rollup build`)
-  await bundle({
-    src: './out',
+  await rollupBuild({
+    src: outDir,
     input: 'index.mjs',
     tsconfig: './tsconfig.out.json',
   })
