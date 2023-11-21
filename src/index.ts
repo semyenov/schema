@@ -102,7 +102,7 @@ async function main() {
   await rollupBuild({
     src: outDir,
     input: 'index.mjs',
-    tsconfig: './tsconfig.out.json',
+    tsconfig: './tsconfig.json',
   })
     .then(() => {
       logger.success(`Done`)
