@@ -76,11 +76,12 @@ async function main() {
       `${outDir}/${name}.mjs`,
       vc.toString(),
     )
+      .then(() => {
+        logger.success(`${name}.mjs`)
+      })
 
     ic.prepend(`import * as ${name} from './${name}.mjs';\n`)
     ic.append(`  ${name},\n`)
-
-    logger.success(`${name}.mjs`)
   }
 
   ic.append('};\n')
@@ -90,8 +91,9 @@ async function main() {
     `${outDir}/index.mjs`,
     ic.toString(),
   )
-
-  logger.success(`index.mjs`)
+    .then(() => {
+      logger.success(`index.mjs`)
+    })
 
   logger.info(`Rollup build`)
   await bundle({
@@ -99,8 +101,9 @@ async function main() {
     input: 'index.mjs',
     tsconfig: './tsconfig.out.json',
   })
-
-  logger.success(`Done`)
+    .then(() => {
+      logger.success(`Done`)
+    })
 }
 
 main()
