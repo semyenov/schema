@@ -40,11 +40,8 @@ async function main() {
     logger.info(`Schema ${name}`)
     lintSchema(def, options)
 
-    const vc = new MagicString(
-      validator(def, options)
-        .toModule(),
-      { filename: `${name}.json` },
-    )
+    const vc = new MagicString(validator(def, options)
+      .toModule(), { filename: `${name}.json` })
 
     vc
       .remove(
@@ -84,7 +81,7 @@ async function main() {
     logger.success(`Generating ${name}.mjs`)
   }
 
-  ic.append('}\n')
+  ic.append('};\n')
 
   await Bun.write(
     `${outDir}/index.mjs`,
