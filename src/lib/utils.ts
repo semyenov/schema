@@ -2,7 +2,11 @@ import fs from 'node:fs'
 
 import { type Schema as SchemaOrBoolean, type ValidatorOptions, lint } from '@exodus/schemasafe'
 import pointer from '@exodus/schemasafe/src/pointer'
+import build from '@sozdev/rollup-build'
 import consola from 'consola'
+import { rollup } from 'rollup'
+
+import type { Options as RollupBuildOptions } from '@sozdev/rollup-build'
 
 const logger = consola.withTag('utils')
 
@@ -26,6 +30,22 @@ export async function vendorSchemas(
     })
 
   await Promise.all(writePromises)
+}
+
+export async function bundle(options: RollupBuildOptions) {
+  const rollupConfig = build(options)
+    .slice(0, -1)
+
+  return Promise.all(
+    rollupConfig
+      .map(async (conf) => {
+        const bundle = await rollup(conf)
+
+        return await (Array.isArray(conf.output)
+          ? Promise.all(conf.output.map(bundle.write))
+          : conf.output && bundle.write(conf.output))
+      }),
+  )
 }
 
 export async function readSchemas<

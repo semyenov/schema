@@ -3,11 +3,13 @@ import fs from 'node:fs'
 import {
   validator,
 } from '@exodus/schemasafe'
+import build from '@sozdev/rollup-build'
 import consola from 'consola'
 import MagicString from 'magic-string'
+import { rollup } from 'rollup'
 
 import { loadConfig } from './lib/config'
-import { getFileName, lintSchema, readSchemas } from './lib/utils'
+import { bundle, getFileName, lintSchema, readSchemas } from './lib/utils'
 
 const logger = consola.withTag('schema')
 
@@ -78,17 +80,27 @@ async function main() {
     ic.prepend(`import * as ${name} from './${name}.mjs';\n`)
     ic.append(`  ${name},\n`)
 
-    logger.success(`Generating ${name}.mjs`)
+    logger.success(`${name}.mjs`)
   }
 
   ic.append('};\n')
 
+  logger.info(`Entry point`)
   await Bun.write(
     `${outDir}/index.mjs`,
     ic.toString(),
   )
 
-  logger.success(`Generating index.mjs`)
+  logger.success(`index.mjs`)
+
+  logger.info(`Rollup build`)
+  await bundle({
+    src: './out',
+    input: 'index.mjs',
+    tsconfig: './tsconfig.out.json',
+  })
+
+  logger.success(`Done`)
 }
 
 main()
