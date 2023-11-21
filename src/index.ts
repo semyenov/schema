@@ -34,8 +34,8 @@ async function main() {
   const ic = new MagicString(`\nmodule.exports = {\n`, { filename: 'index.mjs' })
   const defs = await readSchemas(defsDir)
 
-  for (const def of defs.values()) {
-    const name = getFileName(def.$id!)
+  for (const [id, def] of defs.entries()) {
+    const name = getFileName(id)
 
     logger.info(`Schema ${name}`)
     lintSchema(def, options)
@@ -67,7 +67,7 @@ async function main() {
   }
 }`)
       .append(`\nconst schema = ${JSON.stringify(def, null, 2)};`)
-      .append(`\n\nmodule.exports = { 
+      .append(`\n\nmodule.exports = {
   validate: ref0,
   parse: parseWrap(ref0),
   schema
@@ -90,6 +90,8 @@ async function main() {
     `${outDir}/index.mjs`,
     ic.toString(),
   )
+
+  logger.success(`Generating index.mjs`)
 }
 
 main()
