@@ -72,7 +72,7 @@ async function main() {
       .append(`\n\nmodule.exports = {
   validate: ref0,
   parse: parseWrap(ref0),
-  schema
+  schema,
 };`)
 
     await Bun.write(

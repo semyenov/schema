@@ -59,11 +59,12 @@ export function lintSchema(schema: Schema, options: ValidatorOptions) {
     logger.warn(
       error.message
         .slice(0, -error.keywordLocation.length)
-        .concat(schema.$id || '')
-        .concat(error.keywordLocation),
+        .concat(`\n\n${schema.$id}`)
+        .concat(error.keywordLocation)
+        .concat(' -> '),
       refs
-        .map((i) => {
-          return `\n${stringifyWithDepth(i[0], 3, 0)}`
+        .map(([fr]) => {
+          return `${stringifyWithDepth(fr, 3, 2)}`
         })
         .join(''),
     )
@@ -96,24 +97,29 @@ export function stringifyWithDepth(val: any, depth: number, indent = 2) {
   depth = Number.isNaN(+depth) ? 1 : depth
   function next(
     key: string,
-    val: any,
-    depth: number,
-    o: any = null,
-    a: boolean = false,
+    value: any,
+    d: number,
+    a = false,
+    o?: any,
   ) {
-    return !val || typeof val != 'object'
-      ? val
-      : ((a = Array.isArray(val)),
-        JSON.stringify(val, (k, v) => {
-          if (a || depth > 0) {
-            if (!k) {
-              return (a = Array.isArray(v)) || (val = v)
-            }
-            !o && (o = a ? [] : {})
-            o[k] = next(k, v, a ? depth : depth - 1)
+    if (typeof value === 'object') {
+      JSON.stringify(value, (k, v) => {
+        if (Array.isArray(value) || d > 0) {
+          if (!k) {
+            return (a = Array.isArray(v)) || (value = v)
           }
-        }, indent),
-        o || (a ? [] : {}))
+          if (!o) {
+            o = a ? [] : {}
+          }
+
+          o[k] = next(k, v, a ? d : d - 1)
+        }
+      }, indent)
+
+      return o || (a ? [] : {})
+    }
+
+    return value
   }
 
   return JSON.stringify(next('', val, depth), null, indent)
