@@ -20,7 +20,6 @@
         }
       ]
     },
-    "additionalProperties": false,
     "properties": {
       "oneOf": [
         {
@@ -28,7 +27,16 @@
         },
         {
           "type": "object",
-          "additionalProperties": false
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "number" },
+              { "type": "boolean" }
+            ]
+          }
         }
       ]
     },

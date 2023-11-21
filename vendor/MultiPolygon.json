@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://regioni.local/schema/MultiPolygon",
+
   "title": "GeoJSON MultiPolygon",
   "type": "object",
   "required": ["type", "coordinates"],

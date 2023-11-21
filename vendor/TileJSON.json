@@ -4,6 +4,7 @@
 
   "title": "TileJSON",
   "type": "object",
+  "required": ["tilejson", "tiles", "vector_layers"],
   "additionalProperties": false,
   "properties": {
     "tilejson": {
@@ -21,6 +22,8 @@
       "type": "array",
       "items": {
         "type": "object",
+        "required": ["id", "fields"],
+        "additionalProperties": false,
         "properties": {
           "id": {
             "type": "string"
@@ -43,9 +46,7 @@
           "minzoom": {
             "type": "integer"
           }
-        },
-        "required": ["id", "fields"],
-        "additionalProperties": false
+        }
       }
     },
     "attribution": {
@@ -110,6 +111,5 @@
       "pattern": "^\\d+\\.\\d+\\.\\d+\\w?[\\w\\d]*$",
       "maxLength": 10
     }
-  },
-  "required": ["tilejson", "tiles", "vector_layers"]
+  }
 }
