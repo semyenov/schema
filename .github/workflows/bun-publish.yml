@@ -28,6 +28,7 @@ jobs:
         with:
           bun-version: 1.0.13
           
+      - run: bun intsall
       - run: bun run lint
       # - run: npm publish
       #   env:
