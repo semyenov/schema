@@ -64,7 +64,13 @@ async function main() {
   } catch ({ message }) {
     return { valid: !1, error: message };
   }
-}`)
+};
+const jsonCheckWrap = (validate) => function validateIsJSON(data) {
+  if (!deepEqual(data, JSON.parse(JSON.stringify(data))))
+    return validateIsJSON.errors = [{ instanceLocation: "#", error: "not JSON compatible" }], !1;
+  const res = validate(data);
+  return validateIsJSON.errors = validate.errors, res;
+};`)
       .append(`\nconst schema = ${JSON.stringify(def, null, 2)};`)
       .append(`\n\nmodule.exports = {
   schema,

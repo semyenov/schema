@@ -21,7 +21,7 @@
 
   "options": {
     "mode": "default",
-    "jsonCheck": true,
+    "jsonCheck": false,
     "allErrors": true,
     "extraFormats": true,
     "includeErrors": true,
