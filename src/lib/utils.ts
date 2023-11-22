@@ -23,7 +23,7 @@ export async function vendorSchemas(
       const schema = await response.json() as Schema
       const filePath = `${path}/${id}.json`
       const fileContent = Object.assign(schema, {
-        $id: `https://regioni.local/schema/${id}`,
+        $id: id,
       })
 
       return Bun.write(filePath, JSON.stringify(fileContent, null, 2))
@@ -32,17 +32,14 @@ export async function vendorSchemas(
   await Promise.all(writePromises)
 }
 
-export async function readSchemas<
-  T extends Schema,
-  O = T extends object ? T : never,
->(path: string) {
-  const schemas = new Map<string, O>()
+export async function readSchemas(path: string) {
+  const schemas = new Map<string, Schema>()
   const schemaFiles = fs.readdirSync(path)
 
   for (const fileName of schemaFiles) {
     const file = Bun.file(`${path}/${fileName}`)
     const schema = await file.json()
-    schemas.set(schema.$id, schema as O)
+    schemas.set(`https://regioni.local/schema/${schema.$id}`, schema)
   }
 
   return schemas
@@ -90,7 +87,7 @@ export async function rollupBuild(options: RollupBuildOptions) {
 }
 
 export function getName(id: string) {
-  const url = new URL(id).pathname.split('/')
+  const url = id.split('/')
     .pop()
     ?.toLowerCase()
 
@@ -114,12 +111,13 @@ export function stringifyWithDepth(obj: any, depth = Number.MAX_SAFE_INTEGER, in
     }
 
     const isArr = Array.isArray(o)
+    const result = isArr ? [] : {} as any
 
-    return Object.entries(o)
-      .reduce((s, [k, v]) => {
-        s[k] = traverse(v, isArr ? d : d + 1, `${p}/${k}`)
+    Object.entries(o)
+      .forEach(([k, v]) => {
+        result[k] = traverse(v, isArr ? d : d + 1, `${p}/${k}`)
+      })
 
-        return s
-      }, isArr ? [] : {} as any)
+    return result
   }
 }

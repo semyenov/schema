@@ -1,5 +1,5 @@
 {
-  "$id": "https://regioni.local/schema/TileJSON",
+  "$id": "TileJSON",
   "$schema": "http://json-schema.org/draft-07/schema#",
 
   "title": "TileJSON",
