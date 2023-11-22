@@ -24,7 +24,7 @@ export function loadConfig() {
       schemaUrls: {},
 
       options: {
-        mode: 'default',
+        mode: 'struct',
         allErrors: true,
         useDefaults: false,
         requireSchema: true,

@@ -52,7 +52,7 @@ export function lintSchema(schema: Schema, options: ValidatorOptions) {
   return lint(schema, options)
     .map((error) => {
       const refs = pointer.resolveReference(
-        error.schema,
+        error.schema as Schema,
         options.schemas as Map<string, Schema>,
         error.keywordLocation,
       )
