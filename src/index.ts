@@ -7,7 +7,7 @@ import consola from 'consola'
 import MagicString from 'magic-string'
 
 import { loadConfig } from './lib/config'
-import { getName, lintSchema, readSchemas, rollupBuild, vendorSchemas } from './lib/utils'
+import * as utils from './lib/utils'
 
 const logger = consola.withTag('schema')
 
@@ -17,33 +17,33 @@ async function main() {
     throw new Error('Config file was not specified')
   }
 
-  const { options, vendorDir, defsDir, outDir, vendor } = config
+  const { refsDir, defsDir, outDir, schemaUrls, options } = config
 
-  if (!fs.existsSync(vendorDir)) {
-    fs.mkdirSync(vendorDir, { recursive: true })
-    await vendorSchemas(vendor, vendorDir)
+  if (!fs.existsSync(refsDir)) {
+    fs.mkdirSync(refsDir, { recursive: true })
+    await utils.vendorSchemas(schemaUrls, refsDir)
   }
 
   fs.mkdirSync(outDir, { recursive: true })
 
-  const defs = await readSchemas(defsDir)
+  const defs = await utils.readSchemas(defsDir)
   if (!defs.size) {
     throw new Error('Definitions directory is empty')
   }
 
-  const schemas = await readSchemas(vendorDir)
+  const schemas = await utils.readSchemas(refsDir)
   for (const schema of schemas.values()) {
-    lintSchema(schema, options)
+    utils.lintSchema(schema, options)
   }
 
   const ic = new MagicString(`\nmodule.exports = {\n`, { filename: 'index.mjs' })
   options.schemas = schemas
 
   for (const [id, def] of defs.entries()) {
-    const name = getName(id)
+    const name = utils.getName(id)
 
     logger.info(`Schema ${name}`)
-    lintSchema(def, options)
+    utils.lintSchema(def, options)
 
     const vc = new MagicString(validator(def, options)
       .toModule(), { filename: `${name}.json` })
@@ -99,7 +99,7 @@ async function main() {
     })
 
   logger.info(`Rollup build`)
-  await rollupBuild({
+  await utils.rollupBuild({
     src: outDir,
     input: 'index.mjs',
     tsconfig: './tsconfig.json',

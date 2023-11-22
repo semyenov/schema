@@ -3,11 +3,12 @@ import * as c12 from 'c12'
 import type { ValidatorOptions } from '@exodus/schemasafe'
 
 interface Config {
-  vendorDir: string
+  refsDir: string
   defsDir: string
   outDir: string
 
-  vendor: Record<string, string>
+  schemaUrls: Record<string, string>
+
   options: ValidatorOptions
 }
 
@@ -18,9 +19,10 @@ export function loadConfig() {
     defaultConfig: {
       defsDir: './defs',
       outDir: './dist',
-      vendorDir: './vendor',
+      refsDir: './vendor',
 
-      vendor: {},
+      schemaUrls: {},
+
       options: {
         mode: 'default',
         allErrors: true,

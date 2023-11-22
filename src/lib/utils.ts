@@ -49,26 +49,30 @@ export async function readSchemas<
 }
 
 export function lintSchema(schema: Schema, options: ValidatorOptions) {
-  for (const error of lint(schema, options)) {
-    const refs = pointer.resolveReference(
-      error.schema,
-      options.schemas as Map<string, Schema>,
-      error.keywordLocation,
-    )
+  return lint(schema, options)
+    .map((error) => {
+      const refs = pointer.resolveReference(
+        error.schema,
+        options.schemas as Map<string, Schema>,
+        error.keywordLocation,
+      )
 
-    logger.warn(
-      error.message
-        .slice(0, -error.keywordLocation.length)
-        .concat(`\n\n${schema.$id}`)
-        .concat(error.keywordLocation)
-        .concat(' -> '),
-      refs
-        .map(([fr]) => {
-          return `${stringifyWithDepth(fr, 2, 2)}`
-        })
-        .join(''),
-    )
-  }
+      logger.warn(
+        error.message
+          .slice(0, -error.keywordLocation.length)
+          .concat(`\n${schema.$id}`)
+          .concat(error.keywordLocation)
+          .concat(' -> '),
+        refs
+          .map(([fr]) => {
+            return stringifyWithDepth(fr, 2, 2)
+          })
+          .join('\n'),
+
+      )
+
+      return error
+    })
 }
 
 export async function rollupBuild(options: RollupBuildOptions) {
@@ -93,42 +97,29 @@ export function getName(id: string) {
   return url?.endsWith('.json') ? url.slice(0, -5) : url
 }
 
-export function stringifyWithDepth(obj: any, depth: number, indent = 2) {
-  depth = Number.isNaN(+depth) ? 1 : depth
-
-  function next(
-    key: string,
-    value: any,
-    d: number,
-    a: boolean = false,
-    o: any = null,
-  ) {
-    if (typeof value !== 'object') {
-      return value
-    }
-
-    a = Array.isArray(value)
-    o = o || (a ? [] : {})
-
-    JSON.stringify(
-      value,
-      (k: string, v: any) => {
-        if (a || d > 0) {
-          if (!k) {
-            return a || (value = v)
-          }
-
-          o[k] = next(k, v, a ? d : d - 1)
-        }
-      },
-    )
-
-    return o
-  }
-
+export function stringifyWithDepth(obj: any, depth = Number.MAX_SAFE_INTEGER, indent = 2) {
   return JSON.stringify(
-    next('', obj, depth),
+    traverse(obj),
     null,
     indent,
   )
+
+  function traverse(o: any, d: number = 0, p: string = '#') {
+    if (d > depth) {
+      return `󰆐 ${p}`
+    }
+
+    if (typeof o !== 'object') {
+      return o
+    }
+
+    const isArr = Array.isArray(o)
+
+    return Object.entries(o)
+      .reduce((s, [k, v]) => {
+        s[k] = traverse(v, isArr ? d : d + 1, `${p}/${k}`)
+
+        return s
+      }, isArr ? [] : {} as any)
+  }
 }

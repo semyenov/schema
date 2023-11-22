@@ -470,11 +470,11 @@
     "outDir": {
       "type": "string"
     },
-    "vendor": {
-      "$ref": "#/definitions/Record<string,string>"
-    },
-    "vendorDir": {
+    "refsDir": {
       "type": "string"
+    },
+    "schemaUrls": {
+      "$ref": "#/definitions/Record<string,string>"
     }
   },
   "type": "object"
