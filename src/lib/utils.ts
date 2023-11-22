@@ -78,7 +78,7 @@ export function lintSchema(schema: Schema, options: ValidatorOptions) {
 export async function rollupBuild(options: RollupBuildOptions) {
   return Promise.all(
     build(options)
-      .slice(0, -1)
+      .slice(0, -1) // no dts
       .map(async (conf) => {
         const bundle = await rollup(conf)
 
