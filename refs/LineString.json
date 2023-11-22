@@ -9,7 +9,7 @@
   "properties": {
     "type": {
       "type": "string",
-      "enum": ["LineString"]
+      "const": "LineString"
     },
     "coordinates": {
       "type": "array",

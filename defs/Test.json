@@ -15,7 +15,7 @@
       "type": "number"
     },
     "feature": {
-      "$ref": "https://regioni.local/schema/Feature#"
+      "$ref": "https://regioni.local/schema/Point#"
     }
   }
 }

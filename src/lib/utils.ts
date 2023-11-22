@@ -60,7 +60,7 @@ export function lintSchema(schema: Schema, options: ValidatorOptions) {
       logger.warn(
         error.message
           .slice(0, -error.keywordLocation.length)
-          .concat(`\n${schema.$id}`)
+          .concat(`\n${schema.$id}\n`)
           .concat(error.keywordLocation)
           .concat(' -> '),
         refs

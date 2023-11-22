@@ -32,12 +32,9 @@ async function main() {
   }
 
   const schemas = await utils.readSchemas(refsDir)
-  for (const schema of schemas.values()) {
-    utils.lintSchema(schema, options)
-  }
+  options.schemas = schemas
 
   const ic = new MagicString(`\nmodule.exports = {\n`, { filename: 'index.mjs' })
-  options.schemas = schemas
 
   for (const [id, def] of defs.entries()) {
     const name = utils.getName(id)
@@ -70,9 +67,10 @@ async function main() {
 }`)
       .append(`\nconst schema = ${JSON.stringify(def, null, 2)};`)
       .append(`\n\nmodule.exports = {
+  schema,
   validate: ref0,
   parse: parseWrap(ref0),
-  schema,
+  jsonCheck: jsonCheckWrap(ref0),
 };`)
 
     await Bun.write(

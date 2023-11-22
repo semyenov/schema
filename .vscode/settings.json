@@ -144,5 +144,7 @@
 
   "[dotenv]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
-  }
+  },
+  "git-blame.gitWebUrl": "",
+  "workbench.colorCustomizations": {}
 }
