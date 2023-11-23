@@ -71,7 +71,7 @@ const jsonCheckWrap = (validate) => function validateIsJSON(data) {
   const res = validate(data);
   return validateIsJSON.errors = validate.errors, res;
 };`)
-      .append(`\nconst schema = ${JSON.stringify(def, null, 2)};`)
+      .append(`\nconst schema = ${JSON.stringify(def)};`)
       .append(`\n\nmodule.exports = {
   schema,
   validate: ref0,
@@ -91,6 +91,7 @@ const jsonCheckWrap = (validate) => function validateIsJSON(data) {
     ic.append(`  ${name},\n`)
   }
 
+  ic.prepend('\'use strict\'\n')
   ic.append('};\n')
 
   logger.info(`Entry point`)
@@ -102,15 +103,15 @@ const jsonCheckWrap = (validate) => function validateIsJSON(data) {
       logger.success(`index.mjs`)
     })
 
-  logger.info(`Rollup build`)
-  await utils.rollupBuild({
-    src: outDir,
-    input: 'index.mjs',
-    tsconfig: './tsconfig.json',
-  })
-    .then(() => {
-      logger.success(`Done`)
-    })
+  // logger.info(`Rollup build`)
+  // await utils.rollupBuild({
+  //   src: outDir,
+  //   input: 'index.mjs',
+  //   tsconfig: './tsconfig.json',
+  // })
+  //   .then(() => {
+  //     logger.success(`Done`)
+  //   })
 }
 
 main()

@@ -1,10 +1,11 @@
 import fs from 'node:fs'
 
 import { type Schema as SchemaOrBoolean, type ValidatorOptions, lint } from '@exodus/schemasafe'
-import pointer from '@exodus/schemasafe/src/pointer'
 import build from '@sozdev/rollup-build'
 import consola from 'consola'
 import { rollup } from 'rollup'
+
+import * as pointer from './pointer'
 
 import type { Options as RollupBuildOptions } from '@sozdev/rollup-build'
 
@@ -72,19 +73,19 @@ export function lintSchema(schema: Schema, options: ValidatorOptions) {
     })
 }
 
-export async function rollupBuild(options: RollupBuildOptions) {
-  return Promise.all(
-    build(options)
-      .slice(0, -1) // no dts
-      .map(async (conf) => {
-        const bundle = await rollup(conf)
+// export async function rollupBuild(options: RollupBuildOptions) {
+//   return Promise.all(
+//     build(options)
+//       .slice(0, -1) // no dts
+//       .map(async (conf) => {
+//         const bundle = await rollup(conf)
 
-        return Array.isArray(conf.output)
-          ? Promise.all(conf.output.map(bundle.write))
-          : conf.output && bundle.write(conf.output)
-      }),
-  )
-}
+//         return Array.isArray(conf.output)
+//           ? Promise.all(conf.output.map(bundle.write))
+//           : conf.output && bundle.write(conf.output)
+//       }),
+//   )
+// }
 
 export function getName(id: string) {
   const url = id.split('/')
@@ -101,9 +102,9 @@ export function stringifyWithDepth(obj: any, depth = Number.MAX_SAFE_INTEGER, in
     indent,
   )
 
-  function traverse(o: any, d: number = 0, p: string = '#') {
-    if (d > depth) {
-      return `󰆐 ${p}`
+  function traverse(o: any, level: number = 0, pointer: string = '#') {
+    if (level > depth) {
+      return `󰆐 ${pointer}`
     }
 
     if (typeof o !== 'object') {
@@ -115,7 +116,7 @@ export function stringifyWithDepth(obj: any, depth = Number.MAX_SAFE_INTEGER, in
 
     Object.entries(o)
       .forEach(([k, v]) => {
-        result[k] = traverse(v, isArr ? d : d + 1, `${p}/${k}`)
+        result[k] = traverse(v, isArr ? level : level + 1, `${pointer}/${k}`)
       })
 
     return result
